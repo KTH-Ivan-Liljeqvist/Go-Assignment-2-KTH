@@ -4,11 +4,11 @@ import "fmt"
 import "sync"
 
 /*
+The problem was that the program ended before all of the numbers were printed to the console.
 I fixed the bug by adding a wait group. Whenever a number is printed to the console, Done is called
 on the wait group. This way you know that all of the numbers will be printed before the program ends.
 */
 
-// This program should go to 11, but sometimes it only prints 1 to 10.
 func main() {
 
 	const NUMBER_OF_ITERATIONS = 11
