@@ -11,7 +11,7 @@ This part is in the many2many.go.
 The third part of the assignment was to build an "oracle"-program like ELIZA (http://en.wikipedia.org/wiki/ELIZA). The user can ask different questions and the Oracle will answer the questions. The oracle will also make different prophecies.
 
 This had to be accomplished using three main goroutines.
-First goroutine for capturing the questions and starting another goroutine that will answer the question.
+First goroutine for capturing a question and starting another goroutine that will answer this question.
 Second goroutine for making random prophecies.
 Third goroutine for capturing and printing answers and prophecies to the console.
 
