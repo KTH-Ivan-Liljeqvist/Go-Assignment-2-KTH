@@ -1,4 +1,5 @@
 // Stefan Nilsson 2013-03-13
+// Modified and further developed by Ivan Liljeqvist 2015-03-29
 
 // This is a testbed to help you understand channels better.
 package main

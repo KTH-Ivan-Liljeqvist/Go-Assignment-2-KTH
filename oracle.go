@@ -1,4 +1,5 @@
 // Stefan Nilsson 2013-03-13
+// Modified and further developed by Ivan Liljeqvist 2015-03-29
 
 // This program implements an ELIZA-like oracle (en.wikipedia.org/wiki/ELIZA).
 package main
