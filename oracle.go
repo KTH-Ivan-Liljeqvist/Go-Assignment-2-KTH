@@ -59,7 +59,9 @@ func Oracle() chan<- string {
 	//channel for answers
 	answers := make(chan string)
 
-	go handleTheQuestions(questions, answers)
+	//routine for handling the questions and answering them
+	go handleTheQuestions(questions, answers)'
+	//routine for making random prophecies
 	go makeRandomProphecies(answers)
 
 	//routine for printing answers and prophecies to the console.
@@ -67,6 +69,11 @@ func Oracle() chan<- string {
 
 	return questions
 }
+
+/*
+	This function writes random prophecies to the channel 'answers' passed in  as parameter.
+	It does so forever with a random pause in between the prophecies. 
+*/
 
 func makeRandomProphecies(answers chan<- string) {
 
@@ -82,6 +89,10 @@ func makeRandomProphecies(answers chan<- string) {
 		answers <- randomProphecies[rand.Intn(len(randomProphecies))]
 	}
 }
+
+/*
+	This function reads values from channel 'answers' passed in as parameter and prints them to the console.
+*/
 
 func handleOutput(answers <-chan string) {
 	for message := range answers {
