@@ -43,6 +43,7 @@ func main() {
 		}
 
 		fmt.Printf("%s heard: %s\n", star, line)
+		fmt.Printf("The Orcale is very slow at answering, wait for the answer...\n")
 		oracle <- line // The channel doesn't block.
 	}
 
@@ -58,9 +59,8 @@ func Oracle() chan<- string {
 	//channel for answers
 	answers := make(chan string)
 
-	//routines for prophecies and questions
+	go handleTheQuestions(questions, answers)
 	go makeRandomProphecies(answers)
-	go handleTheQuestion(questions, answers)
 
 	//routine for printing answers and prophecies to the console.
 	go handleOutput(answers)
@@ -68,22 +68,37 @@ func Oracle() chan<- string {
 	return questions
 }
 
+func makeRandomProphecies(answers chan<- string) {
+
+	randomProphecies := []string{
+		"The sun will rise.",
+		"The night will end.",
+		"The Earth is round.",
+		"The ocean is deep.",
+	}
+
+	for {
+		time.Sleep(time.Duration(rand.Intn(20)+5) * time.Second)
+		answers <- randomProphecies[rand.Intn(len(randomProphecies))]
+	}
+}
+
+func handleOutput(answers <-chan string) {
+	for message := range answers {
+		fmt.Println("The Oracle has something to say: ", message)
+		fmt.Print(prompt)
+	}
+}
+
 /*
 	This function takes two channels as parameters - 'questions' to recieve questions from and 'answers' to write the answers.
-	As long as 'questions' is open the method will answer the questions and write the answers to the channel 'answers' 
+	As long as 'questions' is open the method will answer the questions and write the answers to the channel 'answers'
 */
-func handleTheQuestion(questions <-chan string, answers chan<- string) {
-	//array containing answers
-	answersStrings := []string{
-		"Hmmm don't remember the answer.",
-		"Hard question...",
-		"Unclear.",
-		"I have actually no idea. Sorry."
-	}
+func handleTheQuestions(questions <-chan string, answers chan<- string) {
 
 	//as long as the question channel is open, answer questions
 	for q := range questions {
-		go answerQuestion(q, answers, answersStrings)
+		go prophecy(q, answers)
 	}
 }
 
@@ -93,7 +108,7 @@ func handleTheQuestion(questions <-chan string, answers chan<- string) {
 func prophecy(question string, answer chan<- string) {
 	// Keep them waiting. Pythia, the original oracle at Delphi,
 	// only gave prophecies on the seventh day of each month.
-	time.Sleep(time.Duration(20+rand.Intn(10)) * time.Second)
+	time.Sleep(time.Duration(20-(15)+rand.Intn(10)) * time.Second)
 
 	// Find the longest word.
 	longestWord := ""
