@@ -20,33 +20,21 @@ const (
 )
 
 func main() {
-	//print welcome message
 	fmt.Printf("Welcome to %s, the oracle at %s.\n", star, venue)
 	fmt.Println("Your questions will be answered in due time.")
 
-	//create the channel by calling this method
 	oracle := Oracle()
-	//init the reader that will read the input from the user
 	reader := bufio.NewReader(os.Stdin)
-
-	//infinite loop in which user will ask question and Oracle will answer
 	for {
-		//print the prompt sign, looks proffessional
 		fmt.Print(prompt)
-		//read the question
 		line, _ := reader.ReadString('\n')
-		//remove all spaces from the question
 		line = strings.TrimSpace(line)
-		//repeat loop if empty
 		if line == "" {
 			continue
 		}
-
 		fmt.Printf("%s heard: %s\n", star, line)
-		fmt.Printf("The Orcale is very slow at answering, wait for the answer...\n")
 		oracle <- line // The channel doesn't block.
 	}
-
 }
 
 // Oracle returns a channel on which you can send your questions to the oracle.
@@ -77,16 +65,9 @@ func Oracle() chan<- string {
 
 func makeRandomProphecies(answers chan<- string) {
 
-	randomProphecies := []string{
-		"The sun will rise.",
-		"The night will end.",
-		"The Earth is round.",
-		"The ocean is deep.",
-	}
-
 	for {
 		time.Sleep(time.Duration(rand.Intn(20)+5) * time.Second)
-		answers <- randomProphecies[rand.Intn(len(randomProphecies))]
+		prophecy("", answers)
 	}
 }
 
